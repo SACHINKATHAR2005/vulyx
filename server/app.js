@@ -2,31 +2,42 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
+import cors from "cors"; // <== ✅ ADD THIS
+import cookieParser from "cookie-parser";
+
 import { connectDB } from "./db/db.js";
 import userRouter from "./routers/user.router.js";
-import cookieParser from "cookie-parser";
 import scanapi from "./routers/scan.routes.js";
-import folderRoutes from "./routers/folder.routes.js"
-import ciRoute from "./routers/ci.routes.js"
-
+import folderRoutes from "./routers/folder.routes.js";
+import ciRoute from "./routers/ci.routes.js";
+import reportRoute from "./routers/report.route.js";
 
 const app = express();
+
+// ✅ CORS Middleware (important: set your frontend domain in production)
+app.use(cors({
+  origin: ["http://localhost:8080"], // change this to your frontend domains // <==  ADD YOUR FRONTEND DOMAIN
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser());
-app.use("/auth/users", userRouter); // Use the user router for user-related routes
-app.use("/scan",scanapi)
-app.use("/folder", folderRoutes); // Use the folder router for folder-related routes
-app.use("/ci",ciRoute);
 
-connectDB().then(()=>{
-  console.log("Connected to MongoDB");
-}).catch((error)=> console.error("Error connecting to MongoDB:", error));
+// ✅ Route Mounting
+app.use("/auth/users", userRouter); // User routes
+app.use("/scan", scanapi);
+app.use("/folder", folderRoutes);
+app.use("/ci", ciRoute);
+app.use(reportRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-
-app.listen(process.env.PORT || 3000,()=>{
+// ✅ Start server after DB connects
+connectDB().then(() => {
+  console.log("Connected to MongoDB");
+  app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is running on port ${process.env.PORT || 3000}`);
-})
+  });
+}).catch((error) => console.error("Error connecting to MongoDB:", error));
