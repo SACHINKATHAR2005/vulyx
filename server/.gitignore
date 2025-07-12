@@ -1,0 +1,15 @@
+# /vulyx/.gitignore
+
+# Node
+node_modules/
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Zip folders or temp
+temp/
+*.zip
+.DS_Store
