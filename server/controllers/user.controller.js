@@ -23,13 +23,15 @@ export const RegisterUser = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const apiKey = generateApiKey();
         const user = await User.create({
             name,
             email,
             password: hashedPassword,
             avatar: avatar || "",
             credits: 0,
-            role: "user"
+            role: "user",
+            apiKey
         });
 
 
@@ -111,7 +113,9 @@ export const loginUser = async (req, res) => {
           email: user.email,
           role: user.role,
           credits: user.credits,
-          apiKey,
+          apiKey:user.apiKey,
+          
+
         }
       });
 
