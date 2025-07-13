@@ -95,18 +95,18 @@ export const loginUser = async (req, res) => {
     );
 
     // Send token as HTTP-only cookie
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // HTTPS only in production
-        sameSite: "None",    // adjust if frontend is on a different domain
-        maxAge: 24 * 60 * 60 * 1000 // 1 day
-      })
+    res.cookie("token", token, {
+  httpOnly: true,
+  secure: false, // ⛔ Disable secure in dev (localhost is NOT HTTPS)
+  sameSite: 'Lax', // or 'None' if cross-origin
+  maxAge: 24 * 60 * 60 * 1000,
+})
       .status(200)
       .json({
         message: `Welcome back ${user.name}`,
         success: true,
-        ...(process.env.NODE_ENV !== "production" && { token }),
+        // ...(process.env.NODE_ENV !== "production" && { token }),
+        token,
         user: {
           id: user._id,
           name: user.name,
@@ -133,7 +133,7 @@ export const logoutUser = (req, res) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict"
+      sameSite: "lax"
     });
     return res.status(200).json({
       message: "Logged out successfully",
