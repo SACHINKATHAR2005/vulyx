@@ -25,13 +25,18 @@ export const scanUploadedFile = async (req, res) => {
     });
 
     // ✅ Respond to client
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       filename: req.file.originalname,
       size: req.file.size,
       issues: vulnerabilities.length,
       score,
       vulnerabilities
+    });
+
+    // 🧹 Delete uploaded file after sending response
+    fs.unlink(filePath, (err) => {
+      if (err) console.error("❌ Failed to delete uploaded file:", err.message);
     });
 
   } catch (error) {

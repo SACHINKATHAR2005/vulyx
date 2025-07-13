@@ -4,6 +4,23 @@ import unzipper from "unzipper";
 import { scanCode } from "../utils/scanner.js";
 import { calculateSecurityScore } from "../utils/score.js";
 import { Report } from "../model/report.model.js";
+import { cleanUpload } from "../script/cleanUpload.js";
+import { cleanTemp } from "../script/cleanTemp.js";
+
+// Helper to delete folder recursively
+const deleteFolderRecursive = (folderPath) => {
+  if (fs.existsSync(folderPath)) {
+    fs.readdirSync(folderPath).forEach((file) => {
+      const curPath = path.join(folderPath, file);
+      if (fs.lstatSync(curPath).isDirectory()) {
+        deleteFolderRecursive(curPath);
+      } else {
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(folderPath);
+  }
+};
 
 // Helper: Recursively scan all supported code files
 const scanAllFiles = async (dir, userId, reportList = []) => {
@@ -23,7 +40,6 @@ const scanAllFiles = async (dir, userId, reportList = []) => {
         const score = calculateSecurityScore(totalLines, issues.length);
 
         if (issues.length > 0) {
-          // Save each report to DB
           await Report.create({
             user: userId,
             filename: path.basename(fullPath),
@@ -46,27 +62,37 @@ const scanAllFiles = async (dir, userId, reportList = []) => {
 
 // Main controller
 export const scanZippedProject = async (req, res) => {
-  try {
-    const zipPath = req.file.path;
-    const extractPath = `temp/${Date.now()}`;
+  const zipPath = req.file.path;
+  const extractPath = `temp/${Date.now()}`;
 
-    // Unzip to a temp folder
+  try {
+    // 🗂️ Extract zip
     await fs.createReadStream(zipPath)
       .pipe(unzipper.Extract({ path: extractPath }))
       .promise();
 
-    // Scan extracted files
+    // 🔍 Scan files
     const results = await scanAllFiles(extractPath, req.user.id);
     const totalIssues = results.reduce((acc, f) => acc + f.issues.length, 0);
     const totalFiles = results.length;
 
-    return res.status(200).json({
+    // ✅ Send response
+    res.status(200).json({
       success: true,
       filesScanned: totalFiles,
       totalIssues,
       summary: `${totalIssues} issues in ${totalFiles} files`,
       results
     });
+
+    // 🧹 Clean up after sending response
+    fs.unlink(zipPath, (err) => {
+      if (err) console.error("❌ Failed to delete zip:", err.message);
+    });
+
+    deleteFolderRecursive(extractPath);
+    cleanUpload();
+    cleanTemp();
 
   } catch (error) {
     return res.status(500).json({

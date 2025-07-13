@@ -2,6 +2,7 @@ import fs from "fs";
 import { scanCode } from "../utils/scanner.js";
 import { calculateSecurityScore } from "../utils/score.js";
 import { Report } from "../model/report.model.js";
+import { cleanUpload } from "../script/cleanUpload.js";
 
 export const scanMultipleFiles = async (req, res) => {
   try {
@@ -14,9 +15,9 @@ export const scanMultipleFiles = async (req, res) => {
       const totalLines = content.split("\n").length;
       const score = calculateSecurityScore(totalLines, issues.length);
 
-      // Save to MongoDB
+      // Save report to DB
       await Report.create({
-        user: req.user.id, // 👈 make sure `verifyToken` middleware is applied
+        user: req.user.id,
         filename: file.originalname,
         totalIssues: issues.length,
         score,
@@ -34,13 +35,23 @@ export const scanMultipleFiles = async (req, res) => {
 
     const totalIssues = results.reduce((acc, file) => acc + file.issues, 0);
 
-    return res.status(200).json({
+    // ✅ Send response first
+    res.status(200).json({
       success: true,
       totalFiles: results.length,
       totalIssues,
       summary: `${totalIssues} issues in ${results.length} files`,
       results,
     });
+
+    // 🧹 Then delete uploaded files
+    for (const file of uploadedFiles) {
+      fs.unlink(file.path, (err) => {
+        if (err) console.error(`❌ Failed to delete ${file.path}:`, err.message);
+      });
+    }
+    cleanUpload();
+
   } catch (error) {
     return res.status(500).json({
       success: false,
