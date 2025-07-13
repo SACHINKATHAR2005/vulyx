@@ -99,7 +99,7 @@ export const loginUser = async (req, res) => {
       .cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", // HTTPS only in production
-        sameSite: "Strict", // adjust if frontend is on a different domain
+        sameSite: "None",    // adjust if frontend is on a different domain
         maxAge: 24 * 60 * 60 * 1000 // 1 day
       })
       .status(200)
