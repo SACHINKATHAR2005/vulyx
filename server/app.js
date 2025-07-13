@@ -16,15 +16,21 @@ const app = express();
 
 // ✅ CORS Middleware with proper configuration
 app.use(cors({
-  origin: true, // Allow all origins for testing
+  origin: function(origin, callback) {
+    // Allow all origins for now
+    callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  exposedHeaders: ['set-cookie']
+  exposedHeaders: ['Set-Cookie', 'Authorization']
 }));
 
 app.use(express.json());
 app.use(cookieParser());
+
+// Enable pre-flight requests for all routes
+// app.options('*', cors());
 
 // ✅ Route Mounting
 app.use("/auth/users", userRouter); // User routes
@@ -33,9 +39,7 @@ app.use("/folder", folderRoutes);
 app.use("/ci", ciRoute);
 app.use(reportRoute);
 
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
+
 
 // ✅ Start server after DB connects
 connectDB().then(() => {

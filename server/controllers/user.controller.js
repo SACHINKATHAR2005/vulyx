@@ -90,27 +90,28 @@ export const loginUser = async (req, res) => {
     );
 
     // Set cookie with proper settings for cross-origin
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      domain: ".onrender.com", // This is important for the render.com domain
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-    });
-
-    return res.status(200).json({
-      message: `Welcome back ${user.name}`,
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        credits: user.credits,
-        apiKey: user.apiKey,
-      },
-    });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true, // Required for cross-origin
+        sameSite: "none", // Required for cross-origin
+        path: "/",
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+      })
+      .status(200)
+      .json({
+        message: `Welcome back ${user.name}`,
+        success: true,
+        token:token,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          credits: user.credits,
+          apiKey: user.apiKey,
+        },
+      });
   } catch (error) {
     return res.status(500).json({
       message: "Internal Server Error",
