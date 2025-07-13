@@ -16,7 +16,7 @@ const app = express();
 
 // ✅ CORS Middleware with proper configuration
 app.use(cors({
-  origin: ["http://localhost:8080", "http://localhost:5173", "http://localhost:3000", "https://your-frontend-domain.com"], // Add your frontend URLs
+  origin: true, // Allow all origins for testing
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
