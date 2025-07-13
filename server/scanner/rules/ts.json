@@ -1,0 +1,77 @@
+[
+  {
+    "pattern": "eval\\s*\\(",
+    "issue": "`eval()` is dangerous and may lead to code injection",
+    "suggestion": "Avoid `eval()`; use safer alternatives like `JSON.parse()`."
+  },
+  {
+    "pattern": "innerHTML\\s*=\\s*",
+    "issue": "`innerHTML` assignment can introduce XSS vulnerabilities",
+    "suggestion": "Use `textContent` or sanitize input before inserting into the DOM."
+  },
+  {
+    "pattern": "document\\.write\\s*\\(",
+    "issue": "`document.write()` is outdated and insecure",
+    "suggestion": "Avoid using `document.write()`, use DOM APIs instead."
+  },
+  {
+    "pattern": "new Function\\s*\\(",
+    "issue": "Using `new Function()` can lead to dynamic code execution",
+    "suggestion": "Avoid this function unless absolutely necessary and never with user input."
+  },
+  {
+    "pattern": "child_process\\.exec\\s*\\(",
+    "issue": "`child_process.exec()` can lead to command injection",
+    "suggestion": "Use `execFile()` or validate input strictly."
+  },
+  {
+    "pattern": "fetch\\s*\\([\"']http:",
+    "issue": "Insecure HTTP request",
+    "suggestion": "Use HTTPS instead of HTTP for all requests."
+  },
+  {
+    "pattern": "console\\.log\\([^)]*\\)",
+    "issue": "Debug information exposed in production",
+    "suggestion": "Remove `console.log()` from production builds."
+  },
+  {
+    "pattern": "crypto\\.createHash\\(['\"]md5['\"]\\)",
+    "issue": "MD5 is a weak cryptographic hash function",
+    "suggestion": "Use stronger hashes like SHA-256 or SHA-512."
+  },
+  {
+    "pattern": "process\\.env\\.[A-Z_]+\\s*=\\s*['\"][^'\"]+['\"]",
+    "issue": "Hardcoded secrets in code",
+    "suggestion": "Use environment variables and a `.env` file instead."
+  },
+  {
+    "pattern": "axios\\.get\\([^,]*,\\s*\\{[^}]*validateStatus\\s*:\\s*.*\\}",
+    "issue": "Custom `validateStatus` may bypass HTTP error checks",
+    "suggestion": "Ensure custom `validateStatus` does not silence real errors."
+  },
+  {
+    "pattern": "open\\s*\\(",
+    "issue": "`window.open()` can be exploited for phishing attacks",
+    "suggestion": "Validate URLs before opening external links."
+  },
+  {
+    "pattern": "any\\b",
+    "issue": "Usage of `any` defeats TypeScript's type safety",
+    "suggestion": "Use specific types or `unknown` instead of `any`."
+  },
+  {
+    "pattern": "require\\(['\"][^'\"]*http[^'\"]*['\"]\\)",
+    "issue": "Using HTTP over require/remote imports is unsafe",
+    "suggestion": "Avoid dynamic requires from external or insecure sources."
+  },
+  {
+    "pattern": "res\\.send\\(.*\\$\\{.*\\}\\)",
+    "issue": "Template injection risk if sending unsanitized dynamic strings",
+    "suggestion": "Escape user input and validate before sending dynamic content."
+  },
+  {
+    "pattern": "jwt\\.sign\\([^,]+,[^,]+,[^}]+\\{[^}]*expiresIn:\\s*['\"]?\\d{4,}['\"]?\\}",
+    "issue": "JWT expiration time too long",
+    "suggestion": "Keep `expiresIn` short (e.g., 1h) to limit token lifespan."
+  }
+]

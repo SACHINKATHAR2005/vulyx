@@ -1,0 +1,47 @@
+[
+  {
+    "pattern": "exec\\.Command\\s*\\(",
+    "issue": "`exec.Command()` can lead to command injection",
+    "suggestion": "Sanitize and validate all inputs passed to shell commands."
+  },
+  {
+    "pattern": "os\\.Open\\s*\\(",
+    "issue": "Improper file handling can lead to security risks like path traversal",
+    "suggestion": "Validate and sanitize user-supplied file paths."
+  },
+  {
+    "pattern": "http\\.ListenAndServe\\s*\\(\\s*\\\"\\:\\d+\\\"\\s*,\\s*nil\\s*\\)",
+    "issue": "Starting server with `nil` handler exposes default and potentially unsafe behavior",
+    "suggestion": "Always define a custom `http.Handler` for better control and security."
+  },
+  {
+    "pattern": "json\\.Unmarshal\\s*\\(",
+    "issue": "Untrusted input to `json.Unmarshal` can lead to unexpected struct overwrites",
+    "suggestion": "Validate input and avoid unmarshalling into sensitive or dynamic structs."
+  },
+  {
+    "pattern": "crypto/md5",
+    "issue": "MD5 is a weak cryptographic hash function",
+    "suggestion": "Use SHA-256 or stronger hash functions from `crypto/sha256`."
+  },
+  {
+    "pattern": "rand\\.Intn\\s*\\(",
+    "issue": "`rand.Intn()` is not cryptographically secure",
+    "suggestion": "Use `crypto/rand` for secure randomness in sensitive contexts."
+  },
+  {
+    "pattern": "defer\\s+file\\.Close\\(\\)",
+    "issue": "Missing `defer file.Close()` after opening a file can cause resource leaks",
+    "suggestion": "Always use `defer file.Close()` immediately after opening a file."
+  },
+  {
+    "pattern": "panic\\s*\\(",
+    "issue": "Using `panic()` for regular error handling is unsafe",
+    "suggestion": "Handle expected errors gracefully using `error` values, not `panic`."
+  },
+  {
+    "pattern": "http\\.Request\\.FormValue\\s*\\(",
+    "issue": "Unvalidated user input from `FormValue()` may be unsafe",
+    "suggestion": "Always validate and sanitize form inputs from users."
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "pattern": "eval\\s*\\(",
+    "issue": "`eval()` is dangerous and can lead to code injection",
+    "suggestion": "Avoid using `eval()`. Use `JSON.parse()` or safer alternatives."
+  },
+  {
+    "pattern": "document\\.write\\s*\\(",
+    "issue": "`document.write()` is unsafe and can open XSS attacks",
+    "suggestion": "Use DOM manipulation with `textContent` or `innerText` instead."
+  },
+  {
+    "pattern": "innerHTML\\s*=\\s*",
+    "issue": "`innerHTML` can cause DOM-based XSS",
+    "suggestion": "Avoid assigning untrusted input to `innerHTML`. Use `textContent`."
+  },
+  {
+    "pattern": "require\\(['\"][^'\"]*http[^'\"]*['\"]\\)",
+    "issue": "Insecure external HTTP request",
+    "suggestion": "Always use `https://` when fetching external resources."
+  },
+  {
+    "pattern": "child_process\\.exec\\s*\\(",
+    "issue": "`child_process.exec()` may lead to command injection",
+    "suggestion": "Validate user input strictly or use `execFile()` with args."
+  },
+  {
+    "pattern": "new Function\\s*\\(",
+    "issue": "Use of `new Function()` can lead to dynamic code execution",
+    "suggestion": "Avoid using `new Function()` with untrusted input."
+  },
+  {
+    "pattern": "crypto\\.createHash\\(['\"]md5['\"]\\)",
+    "issue": "MD5 is weak and should not be used",
+    "suggestion": "Use a secure algorithm like SHA-256."
+  },
+  {
+    "pattern": "const\\s+apiKey\\s*=\\s*['\"][A-Za-z0-9\\-_]{16,}['\"]",
+    "issue": "Hardcoded API key found",
+    "suggestion": "Move API keys to environment variables or config files."
+  },
+  {
+    "pattern": "http:\\/\\/",
+    "issue": "Insecure HTTP protocol used",
+    "suggestion": "Use HTTPS instead of HTTP for secure communication."
+  }
+]

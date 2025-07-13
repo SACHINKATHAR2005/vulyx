@@ -1,0 +1,52 @@
+[
+  {
+    "pattern": "System\\.Diagnostics\\.Process\\.Start\\s*\\(",
+    "issue": "Use of `Process.Start()` can lead to command injection",
+    "suggestion": "Avoid passing unsanitized input to system commands."
+  },
+  {
+    "pattern": "SqlCommand\\s*\\(.+\\+.+\\)",
+    "issue": "SQL Injection risk due to string concatenation in SQL queries",
+    "suggestion": "Use parameterized queries with `SqlParameter` instead of string concatenation."
+  },
+  {
+    "pattern": "MD5CryptoServiceProvider",
+    "issue": "MD5 is a weak hashing algorithm",
+    "suggestion": "Use a secure alternative like SHA256."
+  },
+  {
+    "pattern": "new\\s+Random\\s*\\(",
+    "issue": "`Random` is not cryptographically secure",
+    "suggestion": "Use `RNGCryptoServiceProvider` or `RandomNumberGenerator` for security-sensitive operations."
+  },
+  {
+    "pattern": "HttpContext\\.Current\\.Request\\.QueryString",
+    "issue": "Using query strings without validation may lead to injection vulnerabilities",
+    "suggestion": "Validate and sanitize all input from query strings."
+  },
+  {
+    "pattern": "Response\\.Write\\s*\\(",
+    "issue": "Writing directly to response without encoding can cause XSS",
+    "suggestion": "Use proper encoding or frameworks like Razor to prevent XSS."
+  },
+  {
+    "pattern": "ViewBag\\.",
+    "issue": "`ViewBag` data may be vulnerable if rendered without encoding",
+    "suggestion": "Always encode dynamic output in views."
+  },
+  {
+    "pattern": "Server\\.MapPath\\s*\\(",
+    "issue": "Improper use may lead to path traversal",
+    "suggestion": "Validate and sanitize paths before accessing files."
+  },
+  {
+    "pattern": "catch\\s*\\(Exception\\s*ex\\)",
+    "issue": "Catching generic exceptions may hide critical errors",
+    "suggestion": "Catch specific exceptions when possible for better error handling."
+  },
+  {
+    "pattern": "Session\\[\"[^\"]+\"\\]",
+    "issue": "Improper session management can lead to session fixation",
+    "suggestion": "Ensure session tokens are regenerated on login and properly invalidated on logout."
+  }
+]

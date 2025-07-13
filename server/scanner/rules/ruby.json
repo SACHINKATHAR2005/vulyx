@@ -1,0 +1,57 @@
+[
+  {
+    "pattern": "eval\\s*\\(",
+    "issue": "Use of `eval` can lead to code injection",
+    "suggestion": "Avoid `eval`. Use safer alternatives or strong input validation."
+  },
+  {
+    "pattern": "system\\s*\\(",
+    "issue": "Use of `system()` may lead to command injection",
+    "suggestion": "Avoid direct shell commands or sanitize inputs rigorously."
+  },
+  {
+    "pattern": "File\\.open\\s*\\(",
+    "issue": "Improper file handling can lead to path traversal vulnerabilities",
+    "suggestion": "Validate and sanitize user input used in file paths."
+  },
+  {
+    "pattern": "render\\s+text:\\s*params\\[.*\\]",
+    "issue": "Rendering user input directly may cause XSS",
+    "suggestion": "Escape output or use strong parameter filtering and sanitization."
+  },
+  {
+    "pattern": "render\\s+:inline\\s*=>\\s*params\\[.*\\]",
+    "issue": "Rendering inline templates from user input may lead to code injection",
+    "suggestion": "Avoid rendering templates directly from user input."
+  },
+  {
+    "pattern": "params\\[.*\\]",
+    "issue": "Unfiltered use of params may cause mass assignment or injection vulnerabilities",
+    "suggestion": "Use strong parameters and validate all inputs."
+  },
+  {
+    "pattern": "send\\s*\\(",
+    "issue": "Use of `send()` with user input may invoke unexpected methods",
+    "suggestion": "Avoid dynamic method calls from untrusted input."
+  },
+  {
+    "pattern": "YAML\\.load\\s*\\(",
+    "issue": "`YAML.load` can execute arbitrary code during deserialization",
+    "suggestion": "Use `YAML.safe_load` instead for safer deserialization."
+  },
+  {
+    "pattern": "ActiveRecord::Base\\.connection\\.execute\\s*\\(",
+    "issue": "Direct SQL execution can be vulnerable to SQL injection",
+    "suggestion": "Use ActiveRecord's query interface or parameterized queries."
+  },
+  {
+    "pattern": "cookies\\[.*\\]",
+    "issue": "Unencrypted or unsanitized cookies may lead to session hijacking",
+    "suggestion": "Use secure cookies and encrypt sensitive data."
+  },
+  {
+    "pattern": "render\\s+inline:",
+    "issue": "Rendering raw templates from strings can lead to code execution",
+    "suggestion": "Avoid `render inline:` with untrusted input."
+  }
+]

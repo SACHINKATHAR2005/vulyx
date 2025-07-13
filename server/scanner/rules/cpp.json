@@ -1,0 +1,47 @@
+[
+  {
+    "pattern": "strcpy\\s*\\(",
+    "issue": "`strcpy()` is unsafe and can cause buffer overflows",
+    "suggestion": "Use `strncpy()` or safer alternatives like `std::string`."
+  },
+  {
+    "pattern": "sprintf\\s*\\(",
+    "issue": "`sprintf()` is unsafe due to lack of bounds checking",
+    "suggestion": "Use `snprintf()` or C++ streams like `std::ostringstream`."
+  },
+  {
+    "pattern": "gets\\s*\\(",
+    "issue": "`gets()` is dangerous and deprecated",
+    "suggestion": "Use `fgets()` or `std::getline()` instead."
+  },
+  {
+    "pattern": "system\\s*\\(",
+    "issue": "`system()` can be exploited for command injection",
+    "suggestion": "Avoid `system()`. Use platform-specific APIs with strict input validation."
+  },
+  {
+    "pattern": "new\\s+char\\s*\\[",
+    "issue": "Manual memory management can lead to memory leaks",
+    "suggestion": "Prefer using `std::vector` or `std::string` instead of raw pointers."
+  },
+  {
+    "pattern": "delete\\s+\\[?\\]?",
+    "issue": "Incorrect memory deallocation can cause undefined behavior",
+    "suggestion": "Use smart pointers like `std::unique_ptr` or `std::shared_ptr` for automatic memory management."
+  },
+  {
+    "pattern": "malloc\\s*\\(",
+    "issue": "Mixing C-style memory allocation with C++ can be error-prone",
+    "suggestion": "Use `new` or C++ containers like `std::vector` instead of `malloc()`."
+  },
+  {
+    "pattern": "strcat\\s*\\(",
+    "issue": "`strcat()` can lead to buffer overflows",
+    "suggestion": "Use `strncat()` or `std::string` operations instead."
+  },
+  {
+    "pattern": "catch\\s*\\(...\\)",
+    "issue": "Catching all exceptions with `catch(...)` hides useful error information",
+    "suggestion": "Catch specific exceptions to improve error handling clarity."
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "pattern": "Runtime\\.getRuntime\\(\\)\\.exec\\(",
+    "issue": "Use of `Runtime.exec()` can lead to command injection",
+    "suggestion": "Validate all inputs or use safer libraries like `ProcessBuilder` with strict argument handling."
+  },
+  {
+    "pattern": "ObjectInputStream\\s*\\(",
+    "issue": "`ObjectInputStream` can be abused for insecure deserialization",
+    "suggestion": "Use with caution and avoid deserializing untrusted data. Prefer JSON libraries for safer serialization."
+  },
+  {
+    "pattern": "MessageDigest\\.getInstance\\(\"MD5\"\\)",
+    "issue": "MD5 is a weak hash algorithm",
+    "suggestion": "Use SHA-256 or stronger cryptographic functions like `SHA-512`."
+  },
+  {
+    "pattern": "System\\.setProperty\\(",
+    "issue": "Setting system properties can expose sensitive configuration",
+    "suggestion": "Validate inputs and restrict access to critical properties."
+  },
+  {
+    "pattern": "Class\\.forName\\(",
+    "issue": "Reflection can be abused for insecure code execution",
+    "suggestion": "Avoid dynamic class loading with untrusted input."
+  },
+  {
+    "pattern": "Statement\\s+.*execute\\(",
+    "issue": "Using `Statement.execute()` without prepared statements can lead to SQL injection",
+    "suggestion": "Use `PreparedStatement` with parameterized queries."
+  },
+  {
+    "pattern": "response\\.getWriter\\(\\)\\.write\\(",
+    "issue": "Directly writing user input to response may lead to XSS",
+    "suggestion": "Escape all user input rendered in HTML or use templating engines with built-in escaping."
+  },
+  {
+    "pattern": "@CrossOrigin\\(",
+    "issue": "Misconfigured CORS policy can expose your APIs",
+    "suggestion": "Restrict allowed origins to known safe domains."
+  },
+  {
+    "pattern": "@RequestMapping\\(\"/admin\"\\)",
+    "issue": "Sensitive admin routes should be protected with authorization",
+    "suggestion": "Ensure proper role-based access control for critical endpoints."
+  },
+  {
+    "pattern": "Base64\\.decode\\(",
+    "issue": "Decoding untrusted base64 data without checks may introduce unsafe content",
+    "suggestion": "Validate and sanitize input before decoding."
+  },
+  {
+    "pattern": "new\\s+SecureRandom\\(\\)",
+    "issue": "Incorrect use of `SecureRandom` without seeding can weaken randomness",
+    "suggestion": "Use default constructor and avoid setting static seeds."
+  },
+  {
+    "pattern": "session\\.setAttribute\\(",
+    "issue": "Improper session handling may lead to session fixation or hijacking",
+    "suggestion": "Regenerate session IDs after login and use secure cookies."
+  },
+  {
+    "pattern": "debug\\s*=\\s*true",
+    "issue": "Debug mode should not be enabled in production",
+    "suggestion": "Disable debug mode before deployment."
+  },
+  {
+    "pattern": "spring\\.main\\.banner-mode\\s*=\\s*console",
+    "issue": "Verbose Spring boot logs may expose stack traces",
+    "suggestion": "Configure logging levels carefully in production."
+  }
+]

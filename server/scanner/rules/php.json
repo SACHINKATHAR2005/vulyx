@@ -1,0 +1,77 @@
+[
+  {
+    "pattern": "eval\\s*\\(",
+    "issue": "`eval()` can lead to code injection",
+    "suggestion": "Avoid using `eval()`. Use safer alternatives or logic-based execution."
+  },
+  {
+    "pattern": "base64_decode\\s*\\(",
+    "issue": "`base64_decode()` may hide malicious payloads",
+    "suggestion": "Validate and sanitize all decoded input."
+  },
+  {
+    "pattern": "include\\s*\\(",
+    "issue": "Dynamic `include()` can cause Local File Inclusion (LFI)",
+    "suggestion": "Avoid including files from user input. Use a whitelist."
+  },
+  {
+    "pattern": "require\\s*\\(",
+    "issue": "Dynamic `require()` can cause Remote File Inclusion (RFI)",
+    "suggestion": "Avoid user-controlled require paths. Use hardcoded file names or strict path checking."
+  },
+  {
+    "pattern": "unserialize\\s*\\(",
+    "issue": "`unserialize()` with untrusted data may lead to object injection",
+    "suggestion": "Avoid using `unserialize()` on untrusted input. Use `json_decode()` if possible."
+  },
+  {
+    "pattern": "\\$_(GET|POST|REQUEST|COOKIE)\\[[^\\]]*\\]",
+    "issue": "Direct use of user input without validation",
+    "suggestion": "Always validate and sanitize input before use."
+  },
+  {
+    "pattern": "md5\\s*\\(",
+    "issue": "`md5()` is cryptographically weak",
+    "suggestion": "Use `hash('sha256', $data)` or stronger hashing functions."
+  },
+  {
+    "pattern": "sha1\\s*\\(",
+    "issue": "`sha1()` is weak for security purposes",
+    "suggestion": "Use `hash('sha256', $data)` instead."
+  },
+  {
+    "pattern": "mysql_query\\s*\\(",
+    "issue": "Using `mysql_query()` can lead to SQL injection",
+    "suggestion": "Use PDO or MySQLi with prepared statements."
+  },
+  {
+    "pattern": "\\$_SERVER\\['PHP_SELF'\\]",
+    "issue": "Usage of `PHP_SELF` can enable XSS if not escaped",
+    "suggestion": "Escape `PHP_SELF` before rendering in HTML."
+  },
+  {
+    "pattern": "echo\\s*\\$\\_GET\\[.*\\]",
+    "issue": "Direct output of unescaped user input leads to XSS",
+    "suggestion": "Use `htmlspecialchars()` or escape output before rendering."
+  },
+  {
+    "pattern": "header\\s*\\(\"Location:\\s*\\$",
+    "issue": "Open redirect vulnerability via dynamic headers",
+    "suggestion": "Validate and restrict redirect destinations."
+  },
+  {
+    "pattern": "setcookie\\s*\\(",
+    "issue": "Missing `HttpOnly` or `Secure` flags in cookies",
+    "suggestion": "Always set `HttpOnly`, `Secure`, and `SameSite` flags in cookies."
+  },
+  {
+    "pattern": "session_start\\s*\\(",
+    "issue": "Improper session handling can lead to fixation or hijacking",
+    "suggestion": "Regenerate session ID after login and use secure session configurations."
+  },
+  {
+    "pattern": "move_uploaded_file\\s*\\(",
+    "issue": "Unvalidated file uploads can lead to arbitrary file execution",
+    "suggestion": "Always validate file type, size, and sanitize the filename before saving."
+  }
+]

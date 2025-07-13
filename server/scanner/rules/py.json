@@ -1,0 +1,67 @@
+[
+  {
+    "pattern": "eval\\s*\\(",
+    "issue": "`eval()` is dangerous and can lead to code injection",
+    "suggestion": "Avoid using `eval()`. Use safer alternatives like `ast.literal_eval()` if needed."
+  },
+  {
+    "pattern": "exec\\s*\\(",
+    "issue": "`exec()` can execute arbitrary code",
+    "suggestion": "Avoid using `exec()`, especially with user input."
+  },
+  {
+    "pattern": "os\\.system\\s*\\(",
+    "issue": "`os.system()` is prone to command injection",
+    "suggestion": "Use `subprocess.run()` with argument lists and validation."
+  },
+  {
+    "pattern": "subprocess\\.Popen\\s*\\(",
+    "issue": "`subprocess.Popen()` can be dangerous with unvalidated input",
+    "suggestion": "Validate inputs or use `shlex.split()` and avoid shell=True."
+  },
+  {
+    "pattern": "pickle\\.load\\s*\\(",
+    "issue": "`pickle.load()` can deserialize untrusted input",
+    "suggestion": "Avoid `pickle` with untrusted data. Use `json` or `yaml.safe_load()`."
+  },
+  {
+    "pattern": "hashlib\\.md5\\s*\\(",
+    "issue": "MD5 is a weak hash function",
+    "suggestion": "Use `hashlib.sha256()` or stronger hash functions."
+  },
+  {
+    "pattern": "random\\.random\\s*\\(",
+    "issue": "Insecure random number generator used",
+    "suggestion": "Use `secrets` or `random.SystemRandom()` for cryptographic use."
+  },
+  {
+    "pattern": "assert\\s+.*input\\s*\\(",
+    "issue": "`assert` is not a reliable method for input validation",
+    "suggestion": "Use explicit input validation with proper error handling."
+  },
+  {
+    "pattern": "api_key\\s*=\\s*['\"][A-Za-z0-9\\-_]{16,}['\"]",
+    "issue": "Hardcoded API key found",
+    "suggestion": "Store API keys in environment variables."
+  },
+  {
+    "pattern": "tensorflow\\.keras\\.models\\.load_model\\s*\\(",
+    "issue": "Loading untrusted ML models can be dangerous",
+    "suggestion": "Validate and verify the source of ML models before loading."
+  },
+  {
+    "pattern": "joblib\\.load\\s*\\(",
+    "issue": "`joblib.load()` can execute malicious code during deserialization",
+    "suggestion": "Only load models from trusted sources. Avoid user-supplied files."
+  },
+  {
+    "pattern": "openai\\.api_key\\s*=\\s*['\"][A-Za-z0-9\\-_]{16,}['\"]",
+    "issue": "Hardcoded OpenAI API key found",
+    "suggestion": "Use environment variables to manage sensitive credentials."
+  },
+  {
+    "pattern": "from\\s+torch\\.hub\\s+import\\s+load\\s*",
+    "issue": "Using `torch.hub.load()` can execute unverified code",
+    "suggestion": "Pin specific versions and validate sources before using."
+  }
+]

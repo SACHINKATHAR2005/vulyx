@@ -1,0 +1,52 @@
+[
+  {
+    "pattern": "<script[^>]*>.*</script>",
+    "issue": "Inline `<script>` tags can lead to XSS if user input is embedded",
+    "suggestion": "Avoid inline scripts or sanitize embedded data properly."
+  },
+  {
+    "pattern": "on\\w+\\s*=\\s*['\"][^'\"]*['\"]",
+    "issue": "Inline event handlers (e.g., `onclick`) can introduce XSS",
+    "suggestion": "Move JavaScript logic to external scripts and use `addEventListener`."
+  },
+  {
+    "pattern": "<iframe[^>]*src=[\"'][^\"']*[\"'][^>]*>",
+    "issue": "Untrusted iframes may introduce clickjacking or malicious content",
+    "suggestion": "Avoid embedding untrusted sources in iframes."
+  },
+  {
+    "pattern": "<form[^>]*(action\\s*=\\s*[\"']http:)",
+    "issue": "Form submission over HTTP is insecure",
+    "suggestion": "Use HTTPS for all form actions."
+  },
+  {
+    "pattern": "<input[^>]*type=[\"']password[\"'][^>]*value=[\"'][^\"']+[\"']",
+    "issue": "Hardcoded password in input field",
+    "suggestion": "Remove `value` from password fields to prevent leaking secrets."
+  },
+  {
+    "pattern": "<meta[^>]*http-equiv=[\"']refresh[\"']",
+    "issue": "Meta refresh can be abused for open redirects or phishing",
+    "suggestion": "Avoid using meta refresh redirects; use proper HTTP redirects instead."
+  },
+  {
+    "pattern": "<link[^>]*href=[\"']http:",
+    "issue": "Loading CSS or assets over HTTP is insecure",
+    "suggestion": "Always load resources over HTTPS."
+  },
+  {
+    "pattern": "<img[^>]*src=[\"']http:",
+    "issue": "Loading images over HTTP can lead to mixed content vulnerabilities",
+    "suggestion": "Use HTTPS for all external images and assets."
+  },
+  {
+    "pattern": "<a[^>]*href=[\"']javascript:",
+    "issue": "Use of `javascript:` in links is dangerous",
+    "suggestion": "Avoid `javascript:` links; use proper event handlers instead."
+  },
+  {
+    "pattern": "<style[^>]*>.*expression\\(",
+    "issue": "CSS `expression()` is dangerous (legacy IE)",
+    "suggestion": "Avoid `expression()` in CSS; it's deprecated and unsafe."
+  }
+]

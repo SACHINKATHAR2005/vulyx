@@ -1,0 +1,27 @@
+[
+  {
+    "pattern": "expression\\s*\\(",
+    "issue": "CSS `expression()` is dangerous and deprecated",
+    "suggestion": "Avoid using `expression()`. It can lead to XSS and is unsupported in modern browsers."
+  },
+  {
+    "pattern": "url\\s*\\(\\s*['\"]?http://",
+    "issue": "Insecure HTTP resource in CSS `url()`",
+    "suggestion": "Use HTTPS in `url()` for secure asset loading."
+  },
+  {
+    "pattern": "!important",
+    "issue": "Excessive use of `!important` can lead to specificity issues",
+    "suggestion": "Use `!important` sparingly. Refactor CSS to improve maintainability."
+  },
+  {
+    "pattern": "-moz-binding\\s*:\\s*url",
+    "issue": "Use of `-moz-binding` can lead to XSS in older Firefox versions",
+    "suggestion": "Avoid using `-moz-binding`. This property is deprecated and unsafe."
+  },
+  {
+    "pattern": "@import\\s+url\\s*\\(",
+    "issue": "CSS `@import` may delay page rendering",
+    "suggestion": "Prefer `<link>` tags or consolidated stylesheets for better performance."
+  }
+]
