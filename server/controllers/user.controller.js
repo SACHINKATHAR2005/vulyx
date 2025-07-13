@@ -31,7 +31,7 @@ export const RegisterUser = async (req, res) => {
       email,
       password: hashedPassword,
       avatar: avatar || "",
-      credits: 0,
+      credits: 50,
       role: "user",
       apiKey,
     });
