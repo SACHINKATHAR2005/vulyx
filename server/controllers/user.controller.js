@@ -93,8 +93,9 @@ export const loginUser = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: true, // ✅ REQUIRED for cross-origin (Render)
-        sameSite: "None", // ✅ REQUIRED for cross-origin
+        secure: true, // Required for HTTPS
+        sameSite: "none", // Required for cross-origin
+        path: "/",
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       })
       .status(200)

@@ -14,10 +14,13 @@ import reportRoute from "./routers/report.route.js";
 
 const app = express();
 
-// ✅ CORS Middleware (important: set your frontend domain in production)
+// ✅ CORS Middleware with proper configuration
 app.use(cors({
-  origin: ["http://localhost:8080"], // change this to your frontend domains // <==  ADD YOUR FRONTEND DOMAIN
-  credentials: true
+  origin: ["http://localhost:8080", "http://localhost:5173", "http://localhost:3000", "https://your-frontend-domain.com"], // Add your frontend URLs
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  exposedHeaders: ['set-cookie']
 }));
 
 app.use(express.json());
